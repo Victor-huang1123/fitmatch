@@ -1,0 +1,10 @@
+{
+  "name": "fitmatch",
+  "private": true,
+  "scripts": {
+    "dev": "corepack pnpm --parallel --filter @fitmatch/web --filter @fitmatch/server dev",
+    "dev:web": "corepack pnpm --filter @fitmatch/web dev",
+    "dev:server": "corepack pnpm --filter @fitmatch/server dev"
+  },
+  "packageManager": "pnpm@9.0.0"
+}
