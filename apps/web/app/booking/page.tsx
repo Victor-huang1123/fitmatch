@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { api } from "../../lib/api";
 import { useAuth } from "../../lib/auth";
 import { useToast } from "../../lib/toast";
 import type { Course, Venue } from "../../lib/types";
 
-export default function BookingPage() {
+function BookingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user } = useAuth();
@@ -63,5 +63,13 @@ export default function BookingPage() {
         <div className="actions"><button className="btn" type="submit">送出預約</button><Link className="btn secondary" href={`/venue/${venue.id}`}>返回場館</Link></div>
       </form>
     </main>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={<main className="page"><p className="muted">載入中...</p></main>}>
+      <BookingContent />
+    </Suspense>
   );
 }

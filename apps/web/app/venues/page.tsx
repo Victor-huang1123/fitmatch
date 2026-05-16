@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { api } from "../../lib/api";
 import type { Venue } from "../../lib/types";
@@ -82,7 +82,7 @@ function RegionPanel({ venues }: { venues: Venue[] }) {
   );
 }
 
-export default function VenuesPage() {
+function VenuesContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [venues, setVenues] = useState<Venue[]>([]);
@@ -234,5 +234,13 @@ export default function VenuesPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function VenuesPage() {
+  return (
+    <Suspense fallback={<main className="page"><p className="muted">載入中...</p></main>}>
+      <VenuesContent />
+    </Suspense>
   );
 }

@@ -12,7 +12,7 @@ seed();
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3000").split(",");
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3001").split(",");
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json({ limit: "50kb" }));
 
@@ -36,6 +36,7 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 const port = Number(process.env.PORT || 4000);
-app.listen(port, () => {
-  console.log(`FitMatch API listening on http://localhost:${port}`);
+const host = process.env.HOST || "127.0.0.1";
+export const server = app.listen(port, host, () => {
+  console.log(`FitMatch API listening on http://${host}:${port}`);
 });

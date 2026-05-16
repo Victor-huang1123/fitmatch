@@ -4,4 +4,7 @@ dist
 .env
 .env.local
 apps/server/data/*.db
+apps/server/data/*.db-shm
+apps/server/data/*.db-wal
+*.tsbuildinfo
 .DS_Store

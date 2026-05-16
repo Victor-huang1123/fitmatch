@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../lib/auth";
 import { useTheme } from "../../lib/theme";
 
@@ -15,8 +15,15 @@ export function Header({ onMenuClick }: HeaderProps) {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const [keyword, setKeyword] = useState("");
+  const [mounted, setMounted] = useState(false);
 
-  const isDark = theme === "dark" || (theme === "system" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const systemPrefersDark =
+    mounted && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const isDark = theme === "dark" || (theme === "system" && systemPrefersDark);
   const toggleTheme = () => setTheme(isDark ? "light" : "dark");
 
   return (
@@ -57,10 +64,11 @@ export function Header({ onMenuClick }: HeaderProps) {
           <button
             className="btn secondary theme-toggle"
             type="button"
-            aria-label={isDark ? "切換為亮色模式" : "切換為暗色模式"}
+            aria-label={mounted && isDark ? "切換為亮色模式" : "切換為暗色模式"}
             onClick={toggleTheme}
+            suppressHydrationWarning
           >
-            {isDark ? "☀️" : "🌙"}
+            {mounted && isDark ? "☀️" : "🌙"}
           </button>
           <Link className="nav-link" href="/venues">找場館</Link>
           {user ? <Link className="nav-link" href="/orders">我的訂單</Link> : null}
