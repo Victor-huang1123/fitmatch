@@ -25,10 +25,14 @@ export default function HomePage() {
   const router = useRouter();
   const [venues, setVenues] = useState<Venue[]>([]);
   const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState(false);
   const [q, setQ] = useState("");
 
   useEffect(() => {
-    api.venues("sort=rating").then((r) => setVenues(r.venues)).catch(() => {}).finally(() => setLoading(false));
+    api.venues("sort=rating")
+      .then((r) => { setVenues(r.venues); setApiError(false); })
+      .catch(() => setApiError(true))
+      .finally(() => setLoading(false));
   }, []);
 
   const doSearch = () => router.push(q.trim() ? `/search?q=${encodeURIComponent(q.trim())}` : "/search");
@@ -99,6 +103,12 @@ export default function HomePage() {
             <h2 className="text-base font-bold text-on-surface">熱門場館</h2>
             <Link href="/search" className="text-xs font-semibold text-primary">查看全部</Link>
           </div>
+          {apiError && (
+            <div className="bg-status-danger/5 border border-status-danger/20 rounded-2xl px-4 py-3 flex items-center gap-2">
+              <span className="material-symbols-outlined text-status-danger shrink-0" style={{ fontSize: "18px" }}>wifi_off</span>
+              <p className="text-xs text-status-danger">無法連線到伺服器，請確認後端已啟動（port 4000）</p>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             {loading
               ? [1,2,3,4].map((i) => (
