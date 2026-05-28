@@ -29,9 +29,9 @@ export default function AccountSwitcher() {
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1 cursor-pointer"
       >
-        <span className="text-sm font-bold text-on-surface">{user.name}</span>
+        <span className="text-sm font-bold text-white">{user.name}</span>
         <svg
-          className={`h-4 w-4 text-on-surface-variant shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`h-4 w-4 text-white/70 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
           <path d="M19 9l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
