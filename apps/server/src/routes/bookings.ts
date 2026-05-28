@@ -42,6 +42,7 @@ bookingsRouter.get("/mine", requireAuth, (req: AuthedRequest, res) => {
     JOIN courses c ON c.id = b.course_id
     WHERE b.user_id = ?
     ORDER BY b.created_at DESC
+    LIMIT 200
   `, req.user!.id) });
 });
 
@@ -53,6 +54,7 @@ bookingsRouter.get("/merchant", requireAuth, requireMerchant, (req: AuthedReques
     JOIN courses c ON c.id = b.course_id
     WHERE v.merchant_id = ?
     ORDER BY b.created_at DESC
+    LIMIT 500
   `, req.user!.merchant_id || req.user!.id) });
 });
 

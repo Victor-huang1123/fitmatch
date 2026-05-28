@@ -7,17 +7,26 @@ import { authRouter } from "./routes/auth";
 import { bookingsRouter } from "./routes/bookings";
 import { venuesRouter } from "./routes/venues";
 
+// 🔴 FIX: 捕捉未處理的例外，防止整個 process crash
+process.on("uncaughtException", (err) => {
+  console.error("[uncaughtException]", err);
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("[unhandledRejection]", reason);
+});
+
 initSchema();
 seed();
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3001").split(",");
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3000").split(",");
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json({ limit: "50kb" }));
 
+// 🟡 FIX: 改為非同步 setImmediate，避免 console.log 阻塞 event loop
 app.use((req, _res, next) => {
-  console.log(`${new Date().toISOString()} ${req.method} ${req.path}`);
+  setImmediate(() => console.log(`${new Date().toISOString()} ${req.method} ${req.path}`));
   next();
 });
 
@@ -40,3 +49,7 @@ const host = process.env.HOST || "127.0.0.1";
 export const server = app.listen(port, host, () => {
   console.log(`FitMatch API listening on http://${host}:${port}`);
 });
+
+// 🔴 FIX: 設定 server timeout，防止客戶端佔住連線不釋放
+server.keepAliveTimeout = 65_000;   // 65 秒 (要大於 load balancer 的 60s)
+server.headersTimeout  = 66_000;   // 比 keepAliveTimeout 多 1 秒

@@ -44,7 +44,9 @@ venuesRouter.get("/", (req, res) => {
 
   const whereClause = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
   const orderClause = sort === "price" ? "ORDER BY starting_price ASC" : "ORDER BY rating DESC";
-  const rows = db.prepare(`SELECT * FROM venues ${whereClause} ${orderClause}`).all(...params).map(parseVenue);
+  // 🟡 FIX: 加 LIMIT 防止無限制回傳所有資料
+  const limit = Math.min(Number(req.query.limit || 100), 200);
+  const rows = db.prepare(`SELECT * FROM venues ${whereClause} ${orderClause} LIMIT ?`).all(...params, limit).map(parseVenue);
   res.json({ venues: rows });
 });
 
