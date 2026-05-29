@@ -80,3 +80,73 @@ button, input, select, textarea { font: inherit; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ── Dark mode overrides ─────────────────────────────────── */
+html[data-theme="dark"] {
+  --background: #232d31;
+  --foreground: #c4d1d5;
+
+  --color-primary: #5ad8f8;
+  --color-on-primary: #003040;
+  --color-primary-container: #00505f;
+  --color-on-primary-container: #b0eaff;
+  --color-inverse-primary: #00677d;
+
+  --color-secondary: #aab6ce;
+  --color-on-secondary: #253042;
+  --color-secondary-container: #3a4557;
+  --color-on-secondary-container: #ccd5ed;
+
+  --color-tertiary: #f0a86a;
+  --color-on-tertiary: #4d2700;
+  --color-tertiary-container: #6a3800;
+  --color-on-tertiary-container: #f8d8bb;
+
+  --color-surface: #232d31;
+  --color-surface-dim: #1c2629;
+  --color-surface-bright: #3e5158;
+  --color-surface-muted: #283236;
+  --color-surface-variant: #3a484d;
+  --color-surface-container-lowest: #1c2629;
+  --color-surface-container-low: #232d31;
+  --color-surface-container: #2b373b;
+  --color-surface-container-high: #334248;
+  --color-surface-container-highest: #3d4f55;
+  --color-surface-lowest: #1c2629;
+  --color-surface-low: #232d31;
+  --color-on-surface: #c4d1d5;
+  --color-on-surface-variant: #8a9da3;
+  --color-inverse-surface: #c4d1d5;
+  --color-inverse-on-surface: #2b373b;
+
+  --color-outline: #7a9098;
+  --color-outline-variant: #3a484d;
+  --color-border-subtle: #2f3f45;
+
+  --color-error: #f5a9a0;
+  --color-on-error: #5c0008;
+  --color-error-container: #860010;
+  --color-on-error-container: #fad8d5;
+
+  --color-cta-accent: #f5a040;
+  --color-status-danger: #f07070;
+}
+
+/* ── Bottom sheet animations ─────────────────────────────── */
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes fade-in-overlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-slide-up        { animation: slide-up 280ms cubic-bezier(0.4, 0, 0.2, 1) both; }
+.animate-fade-in-overlay { animation: fade-in-overlay 200ms ease both; }
+
+/* ── Smooth theme transition ─────────────────────────────── */
+html { transition: background-color 200ms ease; }
+body, .bg-surface, .bg-surface-container-lowest, .bg-surface-container-low,
+.bg-surface-container, .bg-surface-container-high {
+  transition: background-color 200ms ease, border-color 150ms ease;
+}

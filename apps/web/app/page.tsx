@@ -8,6 +8,7 @@ import { useAuth } from "../lib/auth";
 import type { Venue } from "../lib/types";
 import BottomNav from "./components/BottomNav";
 import AccountSwitcher from "./components/AccountSwitcher";
+import ThemeToggle from "./components/ThemeToggle";
 
 const CATEGORIES = [
   { label: "體能訓練", icon: "fitness_center", bg: "bg-primary/10", iconColor: "text-primary" },
@@ -51,9 +52,12 @@ export default function HomePage() {
               <p className="text-[11px] text-white/60 mt-0.5">{user ? `早安，${user.name} 👋` : "探索你的運動世界 💪"}</p>
             </div>
           </div>
-          <Link href="/notifications" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10">
-            <span className="material-symbols-outlined text-white/80">notifications</span>
-          </Link>
+          <div className="flex items-center gap-1.5">
+            <ThemeToggle />
+            <Link href="/notifications" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10">
+              <span className="material-symbols-outlined text-white/80">notifications</span>
+            </Link>
+          </div>
         </div>
         <h1 className="text-2xl font-bold text-white mb-1">FitMatch 健身媒合</h1>
         <p className="text-sm text-white/70 mb-5">搜尋場館 · 預約課程 · 輕鬆上課</p>
